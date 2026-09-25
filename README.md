@@ -35,8 +35,9 @@ independiente.
 
 ## Herramientas
 
-Las seis de datos son de **solo lectura** (`readOnlyHint`) y devuelven
-`outputSchema`. Las dos últimas no sirven datos: sirven para darse de alta.
+Las seis primeras son de **solo lectura** (`readOnlyHint`) y devuelven
+`outputSchema`; necesitan clave. Las cuatro últimas funcionan **sin clave**: una
+responde gratis con tope diario y las otras tres sirven para pagar.
 
 | Herramienta | Qué hace |
 |---|---|
@@ -46,17 +47,37 @@ Las seis de datos son de **solo lectura** (`readOnlyHint`) y devuelven
 | `radicadouno_senales_empresa` | Indicadores verificables: presencia física, volumen de contratación, concentración con su mayor cliente, procesos ganados con oferta única, sanciones y últimas cifras financieras. |
 | `radicadouno_red_empresa` | Recorre el grafo de contratación a dos saltos (empresa → entidad pública → otra empresa): quién concurre ante los mismos compradores, con similitud normalizada por el tamaño de cada cartera. |
 | `radicadouno_estado_fuentes` | Qué fuentes están cargadas, cuántas filas y la fecha de la última captura. Sirve para citar la frescura del dato. |
+| `radicadouno_comprobar` | **Sin clave y gratis, 10 al día.** Lo esencial de una empresa por NIT: identidad registral, si contrata con el Estado, si tiene sanciones y si aparece en listas restrictivas. |
+| `radicadouno_informe` | **Sin clave.** Compra suelta del informe sellado de una empresa (89.900 COP, sin suscripción): devuelve la URL de pago y una referencia. |
 | `radicadouno_contratar` | **Sin clave.** Abre una caja de pago del plan Business y devuelve la URL y una referencia. |
-| `radicadouno_estado_contratacion` | **Sin clave.** Con esa referencia: dice si el pago está confirmado y entrega la clave, una sola vez. |
+| `radicadouno_estado_contratacion` | **Sin clave.** Con la referencia de cualquiera de las dos compras: dice si el pago está confirmado y entrega la clave (una sola vez) o el enlace de descarga del informe. |
 
 `radicadouno_senales_empresa` **no es un score crediticio**. La Ley 1266 de
 2008 reserva esa actividad a las centrales de riesgo y no somos una: son
 hechos con su fuente, sin calificación.
 
+## Probarlo sin pagar nada
+
+El saludo del protocolo (`initialize`, `ping`, `tools/list`) responde sin clave,
+así que cualquier cliente puede conectarse y ver qué hay. Y
+**`radicadouno_comprobar` devuelve datos reales gratis**, con un tope de 10
+comprobaciones al día: es el mismo trato que en la web —gratis la respuesta que
+se ve en pantalla, de pago el documento que sirve para enseñárselo a un
+tercero—.
+
+## Comprar un informe suelto, sin suscripción
+
+`radicadouno_informe` con un NIT devuelve una URL de pago (89.900 COP) y una
+referencia. Cuando el pago se confirma, `radicadouno_estado_contratacion` con
+esa referencia devuelve el enlace de descarga del PDF y el enlace público donde
+un tercero puede comprobar su huella. El documento se puede descargar las veces
+que haga falta.
+
 ## Cómo conseguir una clave (un agente puede hacerlo solo)
 
-El servidor MCP está incluido en el **plan Business** (619.900 COP al mes), y
-el alta no necesita que intervenga nadie por nuestra parte:
+Para las seis herramientas de datos sin tope hace falta el **plan Business**
+(619.900 COP al mes), y el alta no necesita que intervenga nadie por nuestra
+parte:
 
 1. El cliente llama a **`radicadouno_contratar`** — es una de las dos
    herramientas que funcionan sin clave. Devuelve una URL de pago de Stripe y
@@ -180,11 +201,14 @@ and public-procurement data, cross-referenced by NIT (the national tax ID),
 - **Endpoint:** `https://mcp.radicadouno.co/mcp` (Streamable HTTP)
 - **Auth:** `Authorization: Bearer rduno_…` — included in the Business plan
   (<https://radicadouno.co/precios>)
-- **Self-service sign-up, no human in the loop:** call `radicadouno_contratar`
-  (no key needed) for a Stripe checkout URL and a reference, pay, then call
-  `radicadouno_estado_contratacion` with that reference — it hands over the key
-  once and forgets it. The MCP handshake (`initialize`, `ping`, `tools/list`)
-  is open so any client can inspect the server before paying.
+- **Free to try, no key:** the MCP handshake is open, and
+  `radicadouno_comprobar` returns real data for any NIT — registry identity,
+  public contracting, sanctions and restrictive lists — capped at 10 a day.
+- **Self-service sign-up, no human in the loop:** `radicadouno_contratar` (no
+  key needed) returns a Stripe checkout URL and a reference; after payment,
+  `radicadouno_estado_contratacion` hands over the key once and forgets it.
+  `radicadouno_informe` does the same for a single signed report (89,900 COP,
+  no subscription), returning a download link instead of a key.
 - **Health:** <https://mcp.radicadouno.co/health>
 
 **Data:** 5.9M SECOP II public contracts, 8.5M procurement processes, 9.3M
@@ -193,7 +217,7 @@ live RUES lookups, Supersociedades financial statements, procurement
 sanctions, and OFAC/UN restrictive lists. Every record keeps its source URL
 and capture date.
 
-**Tools (the six data tools are read-only):** `radicadouno_buscar_empresa` (search by name or
+**Tools (ten; the six data tools are read-only and need a key):** `radicadouno_buscar_empresa` (search by name or
 NIT), `radicadouno_perfil_empresa` (full profile), `radicadouno_contratos_empresa`
 (public contracts with official links), `radicadouno_senales_empresa`
 (objective signals — **not** a credit score), `radicadouno_red_empresa`
