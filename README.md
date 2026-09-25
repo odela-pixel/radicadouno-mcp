@@ -35,7 +35,8 @@ independiente.
 
 ## Herramientas
 
-Las seis son de **solo lectura** (`readOnlyHint`) y devuelven `outputSchema`.
+Las seis de datos son de **solo lectura** (`readOnlyHint`) y devuelven
+`outputSchema`. Las dos últimas no sirven datos: sirven para darse de alta.
 
 | Herramienta | Qué hace |
 |---|---|
@@ -45,19 +46,32 @@ Las seis son de **solo lectura** (`readOnlyHint`) y devuelven `outputSchema`.
 | `radicadouno_senales_empresa` | Indicadores verificables: presencia física, volumen de contratación, concentración con su mayor cliente, procesos ganados con oferta única, sanciones y últimas cifras financieras. |
 | `radicadouno_red_empresa` | Recorre el grafo de contratación a dos saltos (empresa → entidad pública → otra empresa): quién concurre ante los mismos compradores, con similitud normalizada por el tamaño de cada cartera. |
 | `radicadouno_estado_fuentes` | Qué fuentes están cargadas, cuántas filas y la fecha de la última captura. Sirve para citar la frescura del dato. |
+| `radicadouno_contratar` | **Sin clave.** Abre una caja de pago del plan Business y devuelve la URL y una referencia. |
+| `radicadouno_estado_contratacion` | **Sin clave.** Con esa referencia: dice si el pago está confirmado y entrega la clave, una sola vez. |
 
 `radicadouno_senales_empresa` **no es un score crediticio**. La Ley 1266 de
 2008 reserva esa actividad a las centrales de riesgo y no somos una: son
 hechos con su fuente, sin calificación.
 
-## Cómo conseguir una clave
+## Cómo conseguir una clave (un agente puede hacerlo solo)
 
-El servidor MCP está incluido en el **plan Business** de Radicado Uno
-(619.900 COP al mes). Precios y contratación: <https://radicadouno.co/precios>.
-Para pedir la clave o preguntar cualquier cosa: <hola@radicadouno.co>.
+El servidor MCP está incluido en el **plan Business** (619.900 COP al mes), y
+el alta no necesita que intervenga nadie por nuestra parte:
 
-Las claves tienen la forma `rduno_…`, se emiten a mano hoy y pueden revocarse.
-En la base solo vive su SHA-256.
+1. El cliente llama a **`radicadouno_contratar`** — es una de las dos
+   herramientas que funcionan sin clave. Devuelve una URL de pago de Stripe y
+   una `referencia`.
+2. Se completa el pago en esa URL.
+3. El cliente llama a **`radicadouno_estado_contratacion`** con la referencia.
+   Mientras el pago no esté confirmado responde `pendiente`; en cuanto lo
+   está, **entrega la clave una sola vez** y la borra de nuestro lado.
+
+A partir de ahí la clave viaja en `Authorization: Bearer rduno_…`. Se entrega
+una vez y no se puede volver a consultar: a partir de la entrega, en la base
+solo queda su SHA-256. Si se pierde, escribe a <hola@radicadouno.co> y se
+reemite. Una contratación pagada y no recogida caduca a las 72 horas.
+
+También se puede contratar a mano en <https://radicadouno.co/precios>.
 
 ## Conectar desde Claude Desktop
 
@@ -109,6 +123,10 @@ Estado del servicio, sin clave: <https://mcp.radicadouno.co/health>
 
 ## Límites y condiciones
 
+- **El saludo del protocolo es abierto**: `initialize`, `ping` y `tools/list`
+  responden sin clave, para que cualquier cliente pueda ver qué hay aquí antes
+  de contratar. Los datos no: `tools/call` exige clave salvo en las dos
+  herramientas de contratación.
 - **120 peticiones por minuto y por IP**, antes de comprobar la clave.
 - Un **límite por clave** además del anterior, según el plan.
 - Sin clave válida la respuesta es `401` con el motivo; con un plan que no
@@ -161,7 +179,12 @@ and public-procurement data, cross-referenced by NIT (the national tax ID),
 
 - **Endpoint:** `https://mcp.radicadouno.co/mcp` (Streamable HTTP)
 - **Auth:** `Authorization: Bearer rduno_…` — included in the Business plan
-  (<https://radicadouno.co/precios>); ask at <hola@radicadouno.co>
+  (<https://radicadouno.co/precios>)
+- **Self-service sign-up, no human in the loop:** call `radicadouno_contratar`
+  (no key needed) for a Stripe checkout URL and a reference, pay, then call
+  `radicadouno_estado_contratacion` with that reference — it hands over the key
+  once and forgets it. The MCP handshake (`initialize`, `ping`, `tools/list`)
+  is open so any client can inspect the server before paying.
 - **Health:** <https://mcp.radicadouno.co/health>
 
 **Data:** 5.9M SECOP II public contracts, 8.5M procurement processes, 9.3M
@@ -170,7 +193,7 @@ live RUES lookups, Supersociedades financial statements, procurement
 sanctions, and OFAC/UN restrictive lists. Every record keeps its source URL
 and capture date.
 
-**Tools (all read-only):** `radicadouno_buscar_empresa` (search by name or
+**Tools (the six data tools are read-only):** `radicadouno_buscar_empresa` (search by name or
 NIT), `radicadouno_perfil_empresa` (full profile), `radicadouno_contratos_empresa`
 (public contracts with official links), `radicadouno_senales_empresa`
 (objective signals — **not** a credit score), `radicadouno_red_empresa`
