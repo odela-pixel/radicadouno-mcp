@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.odela-pixel/radicadouno",
+  "description": "Colombian company and public-procurement data by NIT, with the official source for every field.",
+  "version": "0.1.0",
+  "websiteUrl": "https://radicadouno.co/mcp",
+  "repository": {
+    "url": "https://github.com/odela-pixel/radicadouno-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.radicadouno.co/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer rduno_… key, included in the Radicado Uno Business plan (https://radicadouno.co/precios)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
