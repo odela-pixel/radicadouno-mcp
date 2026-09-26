@@ -76,8 +76,9 @@ que haga falta.
 ## Cómo conseguir una clave (un agente puede hacerlo solo)
 
 Para las seis herramientas de datos sin tope hace falta el **plan Business**
-(619.900 COP al mes), y el alta no necesita que intervenga nadie por nuestra
-parte:
+(619.900 COP al mes, **los primeros 7 días gratis**: se pide tarjeta y, si se
+cancela antes, no se cobra nada), y el alta no necesita que intervenga nadie
+por nuestra parte:
 
 1. El cliente llama a **`radicadouno_contratar`** — es una de las dos
    herramientas que funcionan sin clave. Devuelve una URL de pago de Stripe y
@@ -205,7 +206,7 @@ and public-procurement data, cross-referenced by NIT (the national tax ID),
   `radicadouno_comprobar` returns real data for any NIT — registry identity,
   public contracting, sanctions and restrictive lists — capped at 10 a day.
 - **Self-service sign-up, no human in the loop:** `radicadouno_contratar` (no
-  key needed) returns a Stripe checkout URL and a reference; after payment,
+  key needed) returns a Stripe checkout URL (7-day free trial) and a reference; after sign-up,
   `radicadouno_estado_contratacion` hands over the key once and forgets it.
   `radicadouno_informe` does the same for a single signed report (89,900 COP,
   no subscription), returning a download link instead of a key.
