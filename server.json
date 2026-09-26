@@ -1,8 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.odela-pixel/radicadouno",
-  "description": "Colombian company and public-procurement data by NIT, with the official source for every field.",
-  "version": "0.1.0",
+  "name": "co.radicadouno/mcp",
+  "title": "Radicado Uno",
+  "description": "Colombian company and procurement data by NIT, each field with its official source. Free checks.",
+  "version": "0.2.0",
   "websiteUrl": "https://radicadouno.co/mcp",
   "repository": {
     "url": "https://github.com/odela-pixel/radicadouno-mcp",
@@ -15,8 +16,8 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer rduno_… key, included in the Radicado Uno Business plan (https://radicadouno.co/precios)",
-          "isRequired": true,
+          "description": "Bearer rduno_… key for the six data tools (Business plan). Not needed to connect, for radicadouno_comprobar (free, 10/day) or to buy a key or a report from within the server.",
+          "isRequired": false,
           "isSecret": true
         }
       ]
