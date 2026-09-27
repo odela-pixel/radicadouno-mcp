@@ -48,7 +48,7 @@ responde gratis con tope diario y las otras tres sirven para pagar.
 | `radicadouno_red_empresa` | Recorre el grafo de contratación a dos saltos (empresa → entidad pública → otra empresa): quién concurre ante los mismos compradores, con similitud normalizada por el tamaño de cada cartera. |
 | `radicadouno_estado_fuentes` | Qué fuentes están cargadas, cuántas filas y la fecha de la última captura. Sirve para citar la frescura del dato. |
 | `radicadouno_comprobar` | **Sin clave y gratis, 10 al día.** Lo esencial de una empresa por NIT: identidad registral, si contrata con el Estado, si tiene sanciones y si aparece en listas restrictivas. |
-| `radicadouno_informe` | **Sin clave.** Compra suelta del informe sellado de una empresa (89.900 COP, sin suscripción): devuelve la URL de pago y una referencia. |
+| `radicadouno_informe` | El informe sellado de una empresa. **Con clave Pro o Business se descuenta de los 20 incluidos al mes**, sin pagar; sin clave (o agotados), compra suelta de 89.900 COP que devuelve la URL de pago. |
 | `radicadouno_contratar` | **Sin clave.** Abre una caja de pago del plan Business y devuelve la URL y una referencia. |
 | `radicadouno_estado_contratacion` | **Sin clave.** Con la referencia de cualquiera de las dos compras: dice si el pago está confirmado y entrega la clave (una sola vez) o el enlace de descarga del informe. |
 
@@ -65,10 +65,15 @@ comprobaciones al día: es el mismo trato que en la web —gratis la respuesta q
 se ve en pantalla, de pago el documento que sirve para enseñárselo a un
 tercero—.
 
-## Comprar un informe suelto, sin suscripción
+## Pedir un informe: incluido en el plan, o suelto
 
-`radicadouno_informe` con un NIT devuelve una URL de pago (89.900 COP) y una
-referencia. Cuando el pago se confirma, `radicadouno_estado_contratacion` con
+Con clave de los planes Pro o Business, `radicadouno_informe` **descuenta de
+los 20 informes incluidos cada mes**: no hay caja ni pago, el informe se emite
+en unos cuarenta segundos y se recoge con la referencia. Un informe que no se
+pudo emitir no cuenta.
+
+Sin clave, o agotados los del mes, `radicadouno_informe` con un NIT devuelve
+una URL de pago (89.900 COP, sin suscripción) y una referencia. Cuando el pago se confirma, `radicadouno_estado_contratacion` con
 esa referencia devuelve el enlace de descarga del PDF y el enlace público donde
 un tercero puede comprobar su huella. El documento se puede descargar las veces
 que haga falta.
