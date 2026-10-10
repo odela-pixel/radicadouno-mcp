@@ -77,6 +77,16 @@ tercero—.
 Con clave, se añade la cabecera `Authorization: Bearer rduno_…` en la
 configuración del cliente.
 
+### Endpoints solo gratis para Claude y ChatGPT
+
+- `https://mcp.radicadouno.co/claude` — conector de Claude, sin autenticación.
+- `https://mcp.radicadouno.co/chatgpt` — app de ChatGPT, sin autenticación.
+
+Los dos exponen solo dos herramientas de solo lectura y sin pagos:
+`radicadouno_buscar_empresa` (por nombre o NIT) y `radicadouno_comprobar_empresa`
+(la comprobación gratis por NIT, con tope diario). El resto del catálogo está en
+`/mcp`.
+
 ## Pedir un informe: incluido en el plan, o suelto
 
 Con clave de los planes Pro o Business, `radicadouno_informe` **descuenta de
