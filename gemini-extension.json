@@ -1,0 +1,10 @@
+{
+  "name": "radicadouno",
+  "version": "1.1.0",
+  "description": "Colombian company and public-procurement data by NIT, every field linked to its official source. Free check without a key.",
+  "mcpServers": {
+    "radicadouno": {
+      "httpUrl": "https://mcp.radicadouno.co/mcp"
+    }
+  }
+}

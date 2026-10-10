@@ -5,7 +5,8 @@ solo lectura a los datos mercantiles y de contratación pública de Colombia,
 cruzados por NIT y **con la fuente oficial de cada dato**.
 
 Endpoint: `https://mcp.radicadouno.co/mcp` · Transporte: Streamable HTTP ·
-Autenticación: `Authorization: Bearer rduno_…`
+Autenticación: **ninguna para conectarse** (se añade la URL y ya); la clave
+`Authorization: Bearer rduno_…` solo hace falta para las seis herramientas de datos.
 
 > Este repositorio contiene la documentación y el descriptor del servidor. El
 > servidor es **remoto y alojado por nosotros**: no hay nada que instalar ni
@@ -64,6 +65,17 @@ así que cualquier cliente puede conectarse y ver qué hay. Y
 comprobaciones al día: es el mismo trato que en la web —gratis la respuesta que
 se ve en pantalla, de pago el documento que sirve para enseñárselo a un
 tercero—.
+
+### Instalarlo en un clic
+
+- **Gemini CLI:** `gemini extensions install https://github.com/odela-pixel/radicadouno-mcp`
+  (lee `gemini-extension.json`).
+- **Cursor:** el plugin está en `.cursor-plugin/plugin.json` + `mcp.json`.
+- **Cualquier otro cliente:** añadir `https://mcp.radicadouno.co/mcp` como
+  servidor MCP remoto (Streamable HTTP), sin cabeceras.
+
+Con clave, se añade la cabecera `Authorization: Bearer rduno_…` en la
+configuración del cliente.
 
 ## Pedir un informe: incluido en el plan, o suelto
 

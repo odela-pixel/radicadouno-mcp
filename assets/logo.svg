@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- El sello de radicación: papel de certificado + tinta violeta del caucho -->
+  <rect width="64" height="64" rx="14" fill="#eef1ea"/>
+  <g transform="rotate(-6 32 32)">
+    <rect x="9" y="9" width="46" height="46" rx="7" fill="none" stroke="#5b3e96" stroke-width="4.5"/>
+    <rect x="16" y="16" width="32" height="32" rx="3.5" fill="none" stroke="#5b3e96" stroke-width="1.6" opacity="0.55"/>
+    <text x="32" y="44" font-family="'Courier New', 'IBM Plex Mono', monospace" font-weight="bold" font-size="34" fill="#5b3e96" text-anchor="middle">1</text>
+  </g>
+</svg>
