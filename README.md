@@ -53,6 +53,26 @@ responde gratis con tope diario y las otras tres sirven para pagar.
 | `radicadouno_contratar` | **Sin clave.** Abre una caja de pago del plan Business y devuelve la URL y una referencia. |
 | `radicadouno_estado_contratacion` | **Sin clave.** Con la referencia de cualquiera de las dos compras: dice si el pago está confirmado y entrega la clave (una sola vez) o el enlace de descarga del informe. |
 
+### Licitaciones (desde el 11-10-2026)
+
+Nueve herramientas más, de solo lectura y con clave Business. Guía completa de
+la API que hay detrás: [`API-LICITACIONES.md`](API-LICITACIONES.md).
+
+| Herramienta | Qué hace |
+|---|---|
+| `radicadouno_historial_contratos` | Todos los contratos de una empresa, SECOP II (desde 2015) y SECOP I (desde 2000) sin duplicar, paginados con el total exacto, con UNSPSC, lugar de ejecución, valores iniciales, adiciones y la calidad de cada valor. |
+| `radicadouno_resumen_contratacion` | Totales por año, UNSPSC, modalidad o entidad, sumando solo valores fiables y diciendo qué se excluyó y por qué. |
+| `radicadouno_participaciones` | Procesos en los que se presentó (directamente o en consorcio): cuáles ganó y cuáles perdió, cuántos competidores, quién ganó y cuánto ofertó. |
+| `radicadouno_consorcios` | Consorcios y uniones temporales de los que forma parte, con su porcentaje y si lidera. |
+| `radicadouno_procesos` | Procesos de SECOP II por entidad compradora o por código UNSPSC. |
+| `radicadouno_proceso` | Un proceso: proponentes, ofertas, adjudicación y contratos. |
+| `radicadouno_documentos_proceso` | Enlaces oficiales a pliego, evaluación, adjudicación, oferta, contrato y modificaciones. |
+| `radicadouno_modificaciones_contrato` | Adiciones, prórrogas y liquidación de un contrato. |
+| `radicadouno_precios_tvec` | Precio unitario por línea de las órdenes de la Tienda Virtual del Estado. |
+
+Ninguna devuelve datos de personas naturales: en las listas de competidores o
+integrantes aparecen como «persona natural», sin nombre ni documento.
+
 `radicadouno_senales_empresa` **no es un score crediticio**. La Ley 1266 de
 2008 reserva esa actividad a las centrales de riesgo y no somos una: son
 hechos con su fuente, sin calificación.
