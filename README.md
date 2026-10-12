@@ -55,8 +55,8 @@ responde gratis con tope diario y las otras tres sirven para pagar.
 
 ### Licitaciones (desde el 11-10-2026)
 
-Nueve herramientas más, de solo lectura y con clave Business. Guía completa de
-la API que hay detrás: [`API-LICITACIONES.md`](API-LICITACIONES.md).
+Nueve herramientas más, de solo lectura y con clave Business. Documentación en
+<https://radicadouno.co/documentacion>.
 
 | Herramienta | Qué hace |
 |---|---|
