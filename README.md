@@ -1,6 +1,8 @@
 # Radicado Uno — servidor MCP
 
 Servidor **MCP remoto** (Model Context Protocol) que da a un agente acceso de
+
+[![Radicado Uno on StartupScores](https://startupscores.com/badge/radicado-uno.svg?style=shield&v=combo&theme=dark)](https://startupscores.com/open-source/radicado-uno)
 solo lectura a los datos mercantiles y de contratación pública de Colombia,
 cruzados por NIT y **con la fuente oficial de cada dato**.
 
